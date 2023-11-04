@@ -12,7 +12,7 @@
 
     <title>
         
-        tags - undefined
+        collect - undefined
         
     </title>
 
@@ -75,7 +75,7 @@
                     <span>HOME</span>
                 </a>
             </li>
-            <li  class=active >
+            <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
                     <span>TAGS</span>
@@ -87,7 +87,7 @@
                     <span>ARCHIVES</span>
                 </a>
             </li>
-            <li >
+            <li  class=active >
                 <a href="/collect/">
                     <i class="iconfont icon-shoucang1"></i>
                     <span>COLLECT</span>
@@ -135,60 +135,14 @@
     <div class="index-middle">
         <!-- Main Content -->
         
-
-<div id='tag_cloud' class="tags">
+<div class="post-content no-indent">
     
-    <a href="#centOS" class="tag-triangle" title="centOS"><i class="tag-i">centOS</i></a>
     
-    <a href="#redis" class="tag-triangle" title="redis"><i class="tag-i">redis</i></a>
-    
+    <div id="comment-container"></div>
+    <div id="disqus_thread"></div>
+    <div class="giscus"></div>
+    <div id="lv-container"></div>
 </div>
-
-<!-- 标签列表 -->
-
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="centOS">
-                    <span class="tag-text">centOS</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2016/10/04/CentOS7下安装和配置redis/">
-            <h2 class="post-title">
-                CentOS7下安装和配置redis
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="redis">
-                    <span class="tag-text">redis</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2016/10/04/CentOS7下安装和配置redis/">
-            <h2 class="post-title">
-                CentOS7下安装和配置redis
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
 
     </div>
 </div>
@@ -237,6 +191,23 @@
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
+
+
+    <script src="https://giscus.app/client.js"
+      data-repo="etmonkey/etmonkey.github.io"
+      data-repo-id="R_kgDOKpILJg"
+      data-category="General"
+      data-category-id="DIC_kwDOKpILJs4Carxb"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="bottom"
+      data-theme="preferred_color_scheme"
+      data-lang="zh-CN"
+      crossorigin="anonymous"
+      async>
+</script>
 
 
 
