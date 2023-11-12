@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        一种计算平方根近似值的快速算法 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> once upon a time </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="/img/dove.jpg" />
+        </div>
+        <div class="name">
+            <i>hey</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%98%E8%B5%B7"><span class="toc-text">缘起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97sqrtx%E7%89%9B%E9%A1%BF%E6%B3%95%E5%88%9D%E5%80%BC%E7%9A%84%E5%85%AC%E5%BC%8F"><span class="toc-text">计算\(\sqrt{x}\)牛顿法初值的公式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-text">算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E5%AF%BC%E9%AD%94%E6%B3%95%E5%B8%B8%E6%95%B0"><span class="toc-text">推导魔法常数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E5%AF%BCr_1%E7%9A%84%E5%80%BC"><span class="toc-text">推导\(R_1\)的值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%93e%E6%98%AF%E4%B8%80%E4%B8%AA%E5%81%B6%E6%95%B0"><span class="toc-text">当E是一个偶数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%93e%E6%98%AF%E4%B8%80%E4%B8%AA%E5%A5%87%E6%95%B0"><span class="toc-text">当E是一个奇数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96r_2%E7%9A%84%E5%80%BC"><span class="toc-text">优化\(R_2\)的值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E9%80%9F%E5%BA%A6%E5%92%8C%E8%AF%AF%E5%B7%AE%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">几种算法速度和误差的对比</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> once upon a time </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        一种计算平方根近似值的快速算法
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2023-11-04 23:03:56</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#just4fun" title="just4fun">just4fun</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="缘起">缘起</h2>
+<p>之所以会写这篇文章，一切缘起与数年前看到的一个大学老师的博文，介绍了卡马克开源的雷神之锤游戏源码，其底层用到的一个求平方根倒数的神奇的算法，这个算法使用牛顿法求解平方根倒数，但只需要1次迭代就能达到很高的精度，如果迭代两次，则计算精度更高。该算法的神奇之处就在于在执行牛顿法迭代之前对自变量进行了一次移位，并与一个魔法常数（magic number）做和，这样就能得到这个自变量平方根倒数的近似值，用这个近似值作为初值，再进一步做牛顿法迭代，就能迅速算出所求的因变量。该算法的代码如下：<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">InvSqrt</span><span class="params">(<span class="type">float</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> xhalf = <span class="number">0.5f</span>*x;</span><br><span class="line">    <span class="type">int</span> i = *(<span class="type">int</span>*)&amp;x;</span><br><span class="line">    i = <span class="number">0x5f3759df</span> - (i&gt;&gt;<span class="number">1</span>);</span><br><span class="line">    x = *(<span class="type">float</span>*)&amp;i;</span><br><span class="line">    x = x*(<span class="number">1.5f</span>-xhalf*x*x);</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 初见这段代码，我是一脸蒙圈，实测后发现这代码确实好使，更是令我不可思议，正好那位大学老师的博文留下了解释这一算法的线索，是一篇老外的论文，论文的链接<a target="_blank" rel="noopener" href="https://www.lomont.org/papers/2003/InvSqrt.pdf">在这</a>。看完论文，我大概明白了这个算法的原理，然后脑子里冒出了一个想法：我是否可以把这个算法推广到用于计算平方根？甚至更进一步，能否推广到用来计算立方根和立方根的倒数？我的这篇文章就介绍了我用这个算法的原理推导出的计算平方根的方法，至于立方根和立方根的倒数的计算，根据我的一些不成熟的推导和测试，用同样的方法似乎无法完成，但根据我初步的计算，4次根号，以及更进一步，2<sup>n</sup>次根号的计算方法则是可以用相同的原理推导出来的。<br> 之前在网上粗粗搜索了一下，似乎还没有人做这项工作，倒是有人用InvSqrt函数计算出<span class="math inline">\(1/\sqrt{x}\)</span>，然后求倒数得到<span class="math inline">\(\sqrt{x}\)</span>，这样的计算方法和直接通过魔法常数加牛顿法计算<span class="math inline">\(\sqrt{x}\)</span>相比，其精度和速度如何还有待测试。所以我决定干一票，自己把直接计算<span class="math inline">\(\sqrt{x}\)</span>的算法推导出来，不管是否有人已经做过这事，我就当练练手吧。<br></p>
+<h2 id="计算sqrtx牛顿法初值的公式">计算<span class="math inline">\(\sqrt{x}\)</span>牛顿法初值的公式</h2>
+<p>在计算<span class="math inline">\(1/\sqrt{x}\)</span>的代码中，计算初值的关键代码是这句： <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">0x5f3759df</span> - (i&gt;&gt;<span class="number">1</span>);</span><br></pre></td></tr></table></figure> 根据论文给出的推导魔法常数的公式，如果仍然使用将魔法常数减去i的移位的方式计算<span class="math inline">\(\sqrt{x}\)</span>的初值，则在计算初值与真值的相对误差时，会出现有一个变量d无法约去的情况，这时的相对误差公式如下： <span class="math display">\[\epsilon=\vert \frac{\sqrt{1+M}2^{d+1/2}-(2+\beta)2^{R_1-192-d}}{\sqrt{1+M}2^{d+1/2}} \vert\]</span> 其中<span class="math inline">\(M\)</span>是变量<span class="math inline">\(i\)</span>的0~22位代表的尾数值，<span class="math inline">\(M\in[0,1)\)</span>，<span class="math inline">\(E\)</span>是<span class="math inline">\(i\)</span>的23~30位代表的指数值，<span class="math inline">\(E\in[1,254]\)</span>，假设此时<span class="math inline">\(E\)</span>是个偶数，则有<span class="math inline">\(E-127=2d+1\)</span>，<span class="math inline">\(d\)</span>是个整数，<span class="math inline">\(R_1\)</span>是魔法常数的23~30位，<span class="math inline">\(R_2\)</span>是魔法常数0~22位，<span class="math inline">\(\beta\)</span>是与<span class="math inline">\(R_2\)</span>和<span class="math inline">\(M\)</span>相关的一个变量。此时<span class="math inline">\(d\)</span>无法约去，可以预见到<span class="math inline">\(\epsilon\)</span>的值将会很大。<br> 此时观察到公式分子的后一项有一个<span class="math inline">\(2^{-d}\)</span>，而如果将代码改为 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i = magic_num + (i&gt;&gt;<span class="number">1</span>);</span><br></pre></td></tr></table></figure> 则公式中<span class="math inline">\(2^{-d}\)</span>将变为<span class="math inline">\(2^{d}\)</span>，正好可以约去<span class="math inline">\(d\)</span>，于是尝试用上式作为计算<span class="math inline">\(\sqrt{x}\)</span>初值的公式，并推导其魔法常数。<br></p>
+<h2 id="算法">算法</h2>
+<p>我们要求的是<span class="math inline">\(y=\sqrt{x}\)</span>的值，可定义<span class="math inline">\(f(y)=y^2-x\)</span>，根据牛顿法公式：<br> <span class="math display">\[y_{n+1}=y_n-\frac{f(y_n)}{f&#39;(y_n)}\]</span> 得到<span class="math inline">\(y_{n+1}=\frac{1}{2}(y_n+xy^{-1}_n)\)</span><br></p>
+<h2 id="推导魔法常数">推导魔法常数</h2>
+<p>假设待计算的变量x按位序由<span class="math inline">\(0-E-M\)</span>组成，则<span class="math inline">\(x=(1+M)2^{E-127}\)</span>，且所求的值<span class="math inline">\(y=\sqrt{x}=\sqrt{1+M}2^{\frac{E-127}{2}}\)</span>。设魔法常数<span class="math inline">\(R\)</span>按位序由<span class="math inline">\(0-R_1-R_2\)</span>组成。其中0占最高位31位，表示该数是个正数，<span class="math inline">\(E\)</span>和<span class="math inline">\(R_1\)</span>占23-30位，<span class="math inline">\(M\)</span>和<span class="math inline">\(R_2\)</span>占0-22位。<br></p>
+<h3 id="推导r_1的值">推导<span class="math inline">\(R_1\)</span>的值</h3>
+<h4 id="当e是一个偶数">当E是一个偶数</h4>
+<p>则<span class="math inline">\(\lfloor E/2 \rfloor=E/2\)</span>，令<span class="math inline">\(e=E-127\)</span>，而<span class="math inline">\(e=E-127\)</span>是奇数，令<span class="math inline">\(e=2d+1\)</span>，<span class="math inline">\(d\)</span>是一个整数，则初值<span class="math inline">\(y_0\)</span>的指数部分为：<br> <span class="math display">\[\begin{align}
+    R_1+\lfloor E/2 \rfloor&amp;=R_1+E/2 \nonumber\\
+    &amp;=R_1+\frac{e+127}{2} \nonumber\\
+    &amp;=R_1+\frac{2d+1+127}{2} \nonumber\\
+    &amp;=R_1+d+64 \nonumber
+\end{align}\]</span> 因为<span class="math inline">\(E\)</span>是偶数，<span class="math inline">\(i\)</span>右移1位后没有值从指数部分移动到尾数部分，所以新的尾数值是<br> <span class="math display">\[R_2+\lfloor M/2 \rfloor=R_2+M/2\]</span> 当<span class="math inline">\(R_2+M/2&lt;1\)</span>，<span class="math inline">\(R\)</span>与<span class="math inline">\(i\)</span>相加后尾数部分不对指数部分产生进位，则有<br> <span class="math display">\[\begin{align}
+    y_0&amp;=(1+R_2+\lfloor M/2 \rfloor)2^{R_1+\lfloor E/2 \rfloor-127} \nonumber\\
+    &amp;=(1+R_2+M/2)2^{R_1+d-63} \nonumber
+\end{align}\]</span> 当<span class="math inline">\(R_2+M/2\geq1\)</span>，尾数部分对指数部分产生1位进位，则有<br> <span class="math display">\[\begin{align}
+    y_0&amp;=(-1+1+R_2+\lfloor M/2 \rfloor)2^{R_1+\lfloor E/2 \rfloor-127+1} \nonumber\\
+    &amp;=(2R_2+M)2^{R_1+d-63} \nonumber
+\end{align}\]</span> 其中因为<span class="math inline">\(M\)</span>最低位值相对其它误差是很小的，因此可以忽略。令<br> <span class="math display">\[\beta=\begin{cases}
+R_2+M/2 &amp; ,R_2+M/2&lt;1 \\
+-1+2R_2+M &amp; ,R_2+M/2\geq1
+\end{cases}\]</span> 则<br> <span class="math display">\[y_0=(1+\beta)2^{R_1+d-63}\]</span> y的真实值为<br> <span class="math display">\[y=\sqrt{1+M}2^{e/2}=\sqrt{1+M}2^{d+1/2}\]</span> 则<span class="math inline">\(y_0\)</span>和真实值之间的相对误差为：<br> <span class="math display">\[\epsilon=\vert \frac{y-y_0}{y} \vert=\vert \frac{\sqrt{1+M}2^{d+1/2}-(1+\beta)2^{R_1+d-63}}{\sqrt{1+M}2^{d+1/2}} \vert\]</span> 化简为<span class="math inline">\(\vert \epsilon_0 \vert\)</span><br> <span class="math display">\[\epsilon_0=1-\frac{1+\beta}{\sqrt{1+M}}2^{R_1-63.5}\]</span> 不妨令<span class="math inline">\(M=0\)</span>，则<br> <span class="math display">\[\epsilon_0=1-(1+R_2)2^{R_1-63.5}\]</span> 令<span class="math inline">\(\vert \epsilon_0 \vert&lt;1/8\)</span>，得到<br> <span class="math display">\[63.5+\log_2{\frac{7}{8(1+R_2)}}&lt;R_1&lt;63.5+\log_2{\frac{9}{8(1+R_2)}}\]</span> 其中<span class="math inline">\(R_2\in[0,1)\)</span>，则<br> <span class="math display">\[62.3&lt;R_2&lt;63.6\]</span> 所以<span class="math inline">\(R_1=63=0x3F\)</span><br></p>
+<h4 id="当e是一个奇数">当E是一个奇数</h4>
+<p>类似的，令<span class="math inline">\(e=E-127=2d\)</span>，<span class="math inline">\(d\)</span>是一个整数，则初值<span class="math inline">\(y_0\)</span>的指数部分为：<br> <span class="math display">\[R_1+\lfloor E/2 \rfloor=R_1+d+63\]</span> 尾数部分为：<br> <span class="math display">\[R_2+\lfloor M/2 \rfloor=R_2+M/2+1/2\]</span> 当<span class="math inline">\(R_2+M/2+1/2&lt;1\)</span>，有<br> <span class="math display">\[\begin{align}
+    y_0&amp;=(1+R_2+\lfloor M/2 \rfloor)2^{R_1+\lfloor E/2 \rfloor-127} \nonumber\\
+    &amp;=(3+2R_2+M)2^{R_1+d-65} \nonumber
+\end{align}\]</span> 当<span class="math inline">\(R_2+M/2+1/2\ge1\)</span>，有<br> <span class="math display">\[\begin{align}
+    y_0&amp;=(1+R_2+\lfloor M/2 \rfloor-1)2^{R_1+\lfloor E/2 \rfloor-127+1} \nonumber\\
+    &amp;=(2+4R_2+2M)2^{R_1+d-65} \nonumber
+\end{align}\]</span> 令<br> <span class="math display">\[\gamma=\begin{cases}
+    2R_2+M &amp; ,R_2+M/2&lt;1/2 \\
+    4R_2+2M-1 &amp; ,R_2+M/2\ge1/2
+\end{cases}\]</span> 则<br> <span class="math display">\[y_0=(3+\gamma)2^{R_1+d-65}\]</span> 则<span class="math inline">\(y_0\)</span>和真实值之间的相对误差为：<br> <span class="math display">\[\epsilon=\vert \epsilon_1 \vert=\vert \frac{y-y_0}{y} \vert=\vert 1-\frac{3+\gamma}{\sqrt{1+M}}2^{R_1-65} \vert\]</span> 令<span class="math inline">\(M=1\)</span>，则<br> <span class="math display">\[\epsilon_1=1-(1+R_2)2^{R_1-63.5}\]</span> 令<span class="math inline">\(\vert \epsilon_1 \vert&lt;1/8\)</span>，则<br> <span class="math display">\[62.3=63.5+\log_2{\frac{7}{16}}&lt;R_1&lt;63.5+\log_2{\frac{9}{8}}=63.6\]</span> 所以<span class="math inline">\(R_1=63=0x3F\)</span>，和<span class="math inline">\(E\)</span>为偶数的情况一样<br></p>
+<h3 id="优化r_2的值">优化<span class="math inline">\(R_2\)</span>的值</h3>
+<p>根据论文中的说法，我们要寻找一个<span class="math inline">\(R_2\)</span>，使得<span class="math inline">\(\max\{\vert \epsilon_0 \vert, \vert \epsilon_1 \vert \}\)</span>的值最小，接下来我们列出<span class="math inline">\(\epsilon_0\)</span>和<span class="math inline">\(\epsilon_1\)</span>在各分段上的最大值<br> 对于<span class="math inline">\(\epsilon_0\)</span>：<br> ① 当<span class="math inline">\(M=0, R_2&lt;1\)</span><br> <span class="math display">\[f_1(R_2)=1-1/\sqrt{2}-R_2/\sqrt{2}\]</span> ② 当<span class="math inline">\(M=1\)</span><br> <span class="math display">\[f_2(R_2)=\begin{cases}
+    1/4-R_2/2 &amp; ,R_2&lt;1/2 \\
+    1/2-R_2 &amp; ,R_2\ge1/2
+\end{cases}\]</span> ③ 当<span class="math inline">\(M=2-2R_2, R_2 \in (\frac{1}{2},1]\)</span><br> <span class="math display">\[f_3(R_2)=1-\frac{\sqrt{2}}{\sqrt{3-2R_2}}\]</span> ④ 当<span class="math inline">\(M&lt;2-2R_2\)</span>，令<span class="math inline">\(\epsilon_0^{&#39;}=0\)</span>得<span class="math inline">\(M=2R_2, R_2\in[0, \frac{1}{2})\)</span><br> <span class="math display">\[f_4=1-\frac{\sqrt{1+2R_2}}{\sqrt{2}}\]</span> ⑤ 当<span class="math inline">\(M\ge2-2R_2\)</span>，令<span class="math inline">\(\epsilon_0^{&#39;}=0\)</span>得<span class="math inline">\(M=2R_2-2, R_2=1\)</span><br> <span class="math display">\[f_5(R_2)=1-\sqrt{2}\sqrt{2R_2-1}\]</span> 对于<span class="math inline">\(\epsilon_1\)</span>：<br> ⑥ 当<span class="math inline">\(M=0\)</span><br> <span class="math display">\[f_6(R_2)=\begin{cases}
+    1/4-R_2/2 &amp; ,R_2&lt;1/2 \\
+    1/2-R_2 &amp; ,R_2\ge1/2
+\end{cases}\]</span> ⑦ 当<span class="math inline">\(M=1\)</span><br> <span class="math display">\[f_7(R_2)=1-1/\sqrt{2}-R_2/\sqrt{2}\]</span> ⑧ 当<span class="math inline">\(M=1-2R_2\)</span>，<span class="math inline">\(R_2&lt;\frac{1}{2}\)</span><br> <span class="math display">\[f_8(R_2)=1-\frac{1}{2-2R_2}\]</span> ⑨ 当<span class="math inline">\(M&lt;1-R_2\)</span>，令<span class="math inline">\(\epsilon_1^{&#39;}=0\)</span>，得<span class="math inline">\(M=2R_2+1\)</span>不存在，则最值在<span class="math inline">\(M=0\)</span>或<span class="math inline">\(M=1-2R_2\)</span>上<br> <span class="math display">\[f_9(R_2)=\epsilon_1|_{M=1-2R_2}=1-\frac{1}{2-2R_2}, R_2&lt;\frac{1}{2}\]</span> ⑩ 当<span class="math inline">\(M&gt;1-2R_2\)</span>，令<span class="math inline">\(\epsilon_1^{&#39;}=0\)</span>，得<span class="math inline">\(M=2R_2-1\)</span><br> <span class="math display">\[f_{10}(R_2)=1-\sqrt{2R_2},R_2&gt;\frac{1}{2}\]</span> 用matlab求<span class="math inline">\(f_1 \sim f_{10}\)</span>的最小值，得<br> <span class="math display">\[\min\{f_i\}=2.1925\times10^{-6}\]</span> 此时<span class="math inline">\(R_2\)</span>对应的小数值<br> <span class="math display">\[r_0=0.4142\]</span> <span class="math inline">\(R_2\)</span>按位表示为<br> <span class="math display">\[R_2=\lfloor r_0 \times 2^{23} \rfloor=3474701=0x35050D\]</span> 结合易得到的<span class="math inline">\(R_1\)</span>，于是<br> <span class="math display">\[R=0x1FB5050D\]</span></p>
+<h2 id="测试">测试</h2>
+<p>论文给出的这个方法计算魔法常数的<span class="math inline">\(R_1\)</span>是没有问题的，但计算出的<span class="math inline">\(R_2\)</span>不是最优的。在原论文的测试中，作者理论计算出的魔法常数在计算牛顿法迭代初值时优于卡马克的算法中的魔法常数，但在一次和两次迭代后其误差却大于原魔法常数。于是作者用暴力算法以原魔法常数为起点向两边搜索最佳常数，最后发现了比原常数和他自己计算出的常数更优的另一个常数，因缺思汀，但无从解释。<br> 因此我对我计算出的魔法常数的<span class="math inline">\(R_2\)</span>值也并不抱太大期待，我也以前面计算出的<span class="math inline">\(R\)</span>为起点开始暴力搜索最佳参数，可是不知是我对原论文<span class="math inline">\(R_2\)</span>的算法没理解透还是计算错误，我计算出的<span class="math inline">\(R_2\)</span>明显与最佳值相去甚远，我的电脑跑了一个多星期还没到达最佳值，我只能手动将<span class="math inline">\(R\)</span>试凑到离误差最小值相近的位置，再次进行暴力搜索，最终找到使牛顿法一次迭代后误差最小的<span class="math inline">\(R\)</span>值： <span class="math display">\[R=0x1FBB674C\]</span> 此时牛顿法一次迭代的最大误差约为<span class="math inline">\(0.0601\%\)</span>，两次迭代最大误差约为<span class="math inline">\(2.54\times10^{-7}\)</span>。于是最终的求<span class="math inline">\(y=\sqrt{x}\)</span>的代码如下：<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">get_sqrt</span><span class="params">(<span class="type">float</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> x_temp = x;</span><br><span class="line">    <span class="type">int</span> i = *(<span class="type">int</span>*)&amp;x;</span><br><span class="line">    i = <span class="number">0x1fbb674c</span> + (i&gt;&gt;<span class="number">1</span>);</span><br><span class="line">    x = *(<span class="type">float</span>*)&amp;i;</span><br><span class="line">    x = <span class="number">0.5f</span> * (x + x_temp/x);</span><br><span class="line">    x = <span class="number">0.5f</span> * (x + x_temp/x);</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="几种算法速度和误差的对比">几种算法速度和误差的对比</h3>
+<p>第一种算法就是前一节的get_sqrt()，第二种算法用卡马克的invSqrt()函数求解平方根倒数近似值后再求倒数，其代码如下：<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">get_sqrt_by_inv_sqrt</span><span class="params">(<span class="type">float</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> x_temp = <span class="number">0.5f</span> * x;</span><br><span class="line">    <span class="type">int</span> i = *(<span class="type">int</span>*)&amp;x;</span><br><span class="line">    i = <span class="number">0x5f375a86</span> - (i&gt;&gt;<span class="number">1</span>);</span><br><span class="line">    x = *(<span class="type">float</span>*)&amp;i;</span><br><span class="line">    x = x * (<span class="number">1.5f</span> - x_temp * x * x);</span><br><span class="line">    x = x * (<span class="number">1.5f</span> - x_temp * x * x);</span><br><span class="line">    x = <span class="number">1</span>/x;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 首先测试了get_sqrt()和get_sqrt_by_inv_sqrt()，两种方法求得的平方根的精度，在单精度浮点数域中跑，求最大相对误差，结果如下：<br></p>
+<table>
+<thead>
+<tr class="header">
+<th>算法</th>
+<th>初值误差</th>
+<th>一次迭代误差</th>
+<th>两次迭代误差</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>get_sqrt()</td>
+<td>0.03526</td>
+<td><span class="math inline">\(6.01\times 10^{-4}\)</span></td>
+<td><span class="math inline">\(2.54\times 10^{-7}\)</span></td>
+</tr>
+<tr class="even">
+<td>get_sqrt_by_inv_sqrt()</td>
+<td>0.03558</td>
+<td><span class="math inline">\(1.754\times 10^{-3}\)</span></td>
+<td><span class="math inline">\(4.775\times 10^{-6}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>可以看到直接求解平方根的get_sqrt()函数，和先求解平方根倒数，再做一次倒数求解平方根的算法比较，直接求解的方法在精度上完虐后者。<br> 接着测试速度，测试的算法有3种：get_sqrt()，get_sqrt_by_inv_sqrt()，以及直接用库函数sqrt()，在单精度浮点数域中跑，结果如下：<br></p>
+<table>
+<thead>
+<tr class="header">
+<th>算法</th>
+<th>用时</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>get_sqrt()</td>
+<td>10秒</td>
+</tr>
+<tr class="even">
+<td>get_sqrt_by_inv_sqrt()</td>
+<td>14秒</td>
+</tr>
+<tr class="odd">
+<td>sqrt()</td>
+<td>4秒</td>
+</tr>
+</tbody>
+</table>
+<p>这下尴尬了，虽然get_sqrt()比get_sqrt_by_inv_sqrt()快，但是捣鼓了半天速度还大大不如人家库函数的。可能在卡马克那个年代库函数还没那么优秀，那个时候这些个求平方根近似值的函数还有一些优势。经过网上搜索和查询手册，发现Intel汇编指令集中有一个sqrtss指令和一个rsqrtss指令，专门用于计算平方根以及平方根倒数，我猜想这大概就是库函数速度飞快的原因吧，于是我尝试写了一段内联汇编测试sqrtss指令的速度，发现同样条件下汇编代码用时6秒，比我自己写的代码快些，比库函数慢些，大概库函数还做了些优化吧。使用内联汇编的c代码如下<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">get_sqrt_asm</span><span class="params">(<span class="type">float</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> y;</span><br><span class="line">    __asm(</span><br><span class="line">        <span class="string">&quot;movss %1, %%xmm0 \n&quot;</span></span><br><span class="line">        <span class="string">&quot;sqrtss %%xmm0, %%xmm0 \n&quot;</span></span><br><span class="line">        <span class="string">&quot;movss %%xmm0, %0 \n&quot;</span></span><br><span class="line">        : <span class="string">&quot;=m&quot;</span>(y)</span><br><span class="line">        : <span class="string">&quot;m&quot;</span>(x)</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 不知道在MCU、DSP这些嵌入式设备上，这些近似函数还有没有用武之地，以后有机会在测试吧，这次的测试就此打完收工。<br></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+        data-repo="etmonkey/etmonkey.github.io"
+        data-repo-id="R_kgDOKpILJg"
+        data-category="General"
+        data-category-id="DIC_kwDOKpILJs4Carxb"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light_protanopia"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+
+</html>
